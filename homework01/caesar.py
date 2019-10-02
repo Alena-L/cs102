@@ -10,6 +10,16 @@ def encrypt_caesar(plaintext: str) -> str:
     ''
     """
     # PUT YOUR CODE HERE
+    ciphertext = ''
+    
+    for elem in plaintext:
+        if ('a' <= elem <= 'z') or ('A' <= elem <= 'Z'):
+        ciph = ord(elem) + 3
+            if ciph > (ord('Z') and ciph < ord('a')) or (ciph > ord('z')):
+            ciph = ciph - 26
+        ciphertext = ciphertext + chr(ciph)
+        else:
+        ciphertext = elem
     return ciphertext
 
 
