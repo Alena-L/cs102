@@ -1,5 +1,6 @@
 def encrypt_caesar(plaintext: str) -> str:
     """
+
     >>> encrypt_caesar("PYTHON")
     'SBWKRQ'
     >>> encrypt_caesar("python")
@@ -11,21 +12,21 @@ def encrypt_caesar(plaintext: str) -> str:
     """
     # PUT YOUR CODE HERE
     ciphertext = ''
+    cipher = 0 
     
     for elem in plaintext:
-        if ('a' <= elem <= 'z') or ('A' <= elem <= 'Z'):
-        ciph = ord(elem) + 3
-            if ciph > (ord('Z') and ciph < ord('a')) or (ciph > ord('z')):
-            ciph = ciph - 26
-        ciphertext = ciphertext + chr(ciph)
+        if (ord('a') <= ord(elem) <= ord('z')) or (ord('A') <= ord(elem) <= ord('Z')):
+            cipher = ord(elem) + 3
+            if (cipher > ord('Z') and cipher < ord('a')) or (cipher > ord('z')):  
+               cipher = cipher - 26
+            ciphertext = ciphertext + chr(cipher)
         else:
-        ciphertext = ciphertext + elem
+            ciphertext = ciphertext + elem
     return ciphertext
 
-
-def decrypt_caesar(ciphertext: str) -> str:
+def decrypt_caesar(ciphertext):
     """
-    >>> decrypt_caesar("SBWKRQ")
+     >>> decrypt_caesar("SBWKRQ")
     'PYTHON'
     >>> decrypt_caesar("sbwkrq")
     'python'
@@ -34,15 +35,16 @@ def decrypt_caesar(ciphertext: str) -> str:
     >>> decrypt_caesar("")
     ''
     """
-    # PUT YOUR CODE HERE
+  # PUT YOUR CODE HERE
     plaintext = ''
+    ciph = 0
 
-    for elem in plaintext:
-        if ('a' <= elem <= 'z') or ('A' <= elem <= 'Z'):
-        ciph = ord(elem) - 3
-            if ciph > (ord('Z') and ciph < ord('a')) or (ciph > ord('z')):
-            ciph = ciph + 26
-        ciphertext = ciphertext + chr(ciph)
+    for elem in ciphertext:
+        if (ord('a') <= ord(elem) <= ord('z')) or (ord('A') <= ord(elem) <= ord('Z')):
+            cipher = ord(elem) - 3
+            if (cipher > ord('Z') and cipher < ord('a')) or (cipher < ord('A')):  
+               cipher = cipher + 26
+            plaintext = plaintext + chr(cipher)
         else:
-        ciphertext = ciphertext + elem
+            plaintext = plaintext + elem
     return plaintext
