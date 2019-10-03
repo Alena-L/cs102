@@ -1,6 +1,6 @@
 def encrypt_caesar(plaintext: str) -> str:
     """
->>> encrypt_caesar("PYTHON")
+    >>> encrypt_caesar("PYTHON")
     'SBWKRQ'
     >>> encrypt_caesar("python")
     'sbwkrq'
@@ -25,7 +25,7 @@ def encrypt_caesar(plaintext: str) -> str:
 
 def decrypt_caesar(ciphertext):
     """
-     >>> decrypt_caesar("SBWKRQ")
+    >>> decrypt_caesar("SBWKRQ")
     'PYTHON'
     >>> decrypt_caesar("sbwkrq")
     'python'
@@ -34,7 +34,7 @@ def decrypt_caesar(ciphertext):
     >>> decrypt_caesar("")
     ''
     """
-  # PUT YOUR CODE HERE
+    # PUT YOUR CODE HERE
     plaintext = ''
     ciph = 0
 
