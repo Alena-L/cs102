@@ -9,7 +9,19 @@ def encrypt_vigenere(plaintext, keyword):
     >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
     'LXFOPVEFRNHR'
     """
-    # PUT YOUR CODE HERE
+    ciphertext = ''
+    for index,elem in enumerate(plaintext):
+        if (ord('A') <= ord(elem) <= ord('Z')) or (ord('a') <= ord(elem) <= ord('z')):
+            extra = index % len(keyword)
+            if ord('A') <= ord(elem) <= ord('Z'): 
+                change = ord(keyword[extra]) - 65
+            if ord('a') <= ord(elem) <= ord('z'):
+                change = ord(keyword[extra]) - 97 
+            pos = ord(elem) + change
+            if (pos > 90) and (ord('A') <= ord(elem) <= ord('Z')) or (pos > 122) and (ord('a') <= ord(elem) <= ord('z')): 
+                pos = pos - 26
+            ciphertext = ciphertext + chr(pos)
+        else: ciphertext = ciphertext + elem
     return ciphertext
 
 
