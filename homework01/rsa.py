@@ -36,7 +36,13 @@ def gcd(a, b):
     >>> gcd(3, 7)
     1
     """
-    # PUT YOUR CODE HERE
+    while (a != 0) and (b != 0 ):
+        if (a < b): 
+            a,b = b,a
+        ost = a % b
+        a = ost
+    return (a + b)
+    
     pass
 
 
