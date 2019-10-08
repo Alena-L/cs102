@@ -10,18 +10,20 @@ def encrypt_vigenere(plaintext, keyword):
     'LXFOPVEFRNHR'
     """
     ciphertext = ''
-    for index,elem in enumerate(plaintext):
-        if (ord('A') <= ord(elem) <= ord('Z')) or (ord('a') <= ord(elem) <= ord('z')):
+    for index, elem in enumerate(plaintext):
+        if ord('A') <= ord(elem) <= ord('Z') or ord('a') <= ord(elem) <= ord('z'):
             extra = index % len(keyword)
-            if ord('A') <= ord(elem) <= ord('Z'): 
+            if ord('A') <= ord(elem) <= ord('Z'):
                 change = ord(keyword[extra]) - 65
             if ord('a') <= ord(elem) <= ord('z'):
-                change = ord(keyword[extra]) - 97 
+                change = ord(keyword[extra]) - 97
             pos = ord(elem) + change
-            if (pos > 90) and (ord('A') <= ord(elem) <= ord('Z')) or (pos > 122) and (ord('a') <= ord(elem) <= ord('z')): 
+            if (pos > 90) and (ord('A') <= ord(elem) <= ord('Z')) or
+            (pos > 122) and (ord('a') <= ord(elem) <= ord('z')):
                 pos = pos - 26
             ciphertext = ciphertext + chr(pos)
-        else: ciphertext = ciphertext + elem
+        else:
+            ciphertext = ciphertext + elem
     return ciphertext
 
 
@@ -37,22 +39,23 @@ def decrypt_vigenere(ciphertext, keyword):
     'ATTACKATDAWN'
     """
     plaintext = ''
-    for index,elem in enumerate(ciphertext):
-        if (ord('A') <= ord(elem) <= ord('Z')) or (ord('a') <= ord(elem) <= ord('z')):
+    for index, elem in enumerate(ciphertext):
+        if (ord('A') <= ord(elem) <= ord('Z')) or
+        (ord('a') <= ord(elem) <= ord('z')):
             extra = index % len(keyword)
-            if ord('A') <= ord(elem) <= ord('Z'): 
-                change = ord(keyword[extra]) - 65
-            if ord('a') <= ord(elem) <= ord('z'):
-                change = ord(keyword[extra]) - 97 
-            pos = ord(elem) - change
-            if (pos < 65) and (ord('A') <= ord(elem) <= ord('Z')) or (pos < 97) and (ord('a') <= ord(elem) <= ord('z')): 
-                pos = pos + 26
+        if ord('A') <= ord(elem) <= ord('Z'):
+            change = ord(keyword[extra]) - 65
+        if ord('a') <= ord(elem) <= ord('z'):
+            change = ord(keyword[extra]) - 97
+        pos = ord(elem) - change
+        if (pos < 65) and (ord('A') <= ord(elem) <= ord('Z')) or
+        (pos < 97) and (ord('a') <= ord(elem) <= ord('z')):
+            pos = pos + 26
             plaintext = plaintext + chr(pos)
-        else: plaintext = plaintext + elem
+        else:
+            plaintext = plaintext + elem
     return plaintext
 
-x = decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
-print (x)
 
 
    
