@@ -18,8 +18,7 @@ def encrypt_vigenere(plaintext, keyword):
             if ord('a') <= ord(elem) <= ord('z'):
                 change = ord(keyword[extra]) - 97
             pos = ord(elem) + change
-            if (pos > 90) and (ord('A') <= ord(elem) <= ord('Z')) or
-            (pos > 122) and (ord('a') <= ord(elem) <= ord('z')):
+            if pos > 90 and ord('A') <= ord(elem) <= ord('Z') or pos > 122 and ord('a') <= ord(elem) <= ord('z'):
                 pos = pos - 26
             ciphertext = ciphertext + chr(pos)
         else:
@@ -40,17 +39,15 @@ def decrypt_vigenere(ciphertext, keyword):
     """
     plaintext = ''
     for index, elem in enumerate(ciphertext):
-        if (ord('A') <= ord(elem) <= ord('Z')) or
-        (ord('a') <= ord(elem) <= ord('z')):
+        if ord('A') <= ord(elem) <= ord('Z') or ord('a') <= ord(elem) <= ord('z'):
             extra = index % len(keyword)
-        if ord('A') <= ord(elem) <= ord('Z'):
-            change = ord(keyword[extra]) - 65
-        if ord('a') <= ord(elem) <= ord('z'):
-            change = ord(keyword[extra]) - 97
-        pos = ord(elem) - change
-        if (pos < 65) and (ord('A') <= ord(elem) <= ord('Z')) or
-        (pos < 97) and (ord('a') <= ord(elem) <= ord('z')):
-            pos = pos + 26
+            if ord('A') <= ord(elem) <= ord('Z'):
+                change = ord(keyword[extra]) - 65
+            if ord('a') <= ord(elem) <= ord('z'):
+                change = ord(keyword[extra]) - 97
+            pos = ord(elem) - change
+            if pos < 65 and ord('A') <= ord(elem) <= ord('Z') or pos < 97 and ord('a') <= ord(elem) <= ord('z'):
+                pos = pos + 26
             plaintext = plaintext + chr(pos)
         else:
             plaintext = plaintext + elem

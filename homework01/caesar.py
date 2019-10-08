@@ -1,6 +1,5 @@
 def encrypt_caesar(plaintext: str) -> str:
     """
-
     >>> encrypt_caesar("PYTHON")
     'SBWKRQ'
     >>> encrypt_caesar("python")
@@ -19,15 +18,15 @@ def encrypt_caesar(plaintext: str) -> str:
             cipher = ord(elem) + 3
             if cipher > ord('Z') and cipher < ord('a') or cipher > ord('z'):
                 cipher = cipher - 26
-                ciphertext = ciphertext + chr(cipher)
-            else:
-                ciphertext = ciphertext + elem
+            ciphertext = ciphertext + chr(cipher)
+        else:
+            ciphertext = ciphertext + elem
     return ciphertext
 
 
 def decrypt_caesar(ciphertext):
     """
-     >>> decrypt_caesar("SBWKRQ")
+    >>> decrypt_caesar("SBWKRQ")
     'PYTHON'
     >>> decrypt_caesar("sbwkrq")
     'python'
