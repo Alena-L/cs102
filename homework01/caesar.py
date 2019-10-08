@@ -15,14 +15,15 @@ def encrypt_caesar(plaintext: str) -> str:
     cipher = 0 
     
     for elem in plaintext:
-        if (ord('a') <= ord(elem) <= ord('z')) or (ord('A') <= ord(elem) <= ord('Z')):
+        if ord('a') <= ord(elem) <= ord('z') or ord('A') <= ord(elem) <= ord('Z'):
             cipher = ord(elem) + 3
-            if (cipher > ord('Z') and cipher < ord('a')) or (cipher > ord('z')):  
-               cipher = cipher - 26
-            ciphertext = ciphertext + chr(cipher)
-        else:
-            ciphertext = ciphertext + elem
+            if cipher > ord('Z') and cipher < ord('a') or cipher > ord('z'):
+                cipher = cipher - 26
+                ciphertext = ciphertext + chr(cipher)
+            else:
+                ciphertext = ciphertext + elem
     return ciphertext
+
 
 def decrypt_caesar(ciphertext):
     """
@@ -40,10 +41,10 @@ def decrypt_caesar(ciphertext):
     ciph = 0
 
     for elem in ciphertext:
-        if (ord('a') <= ord(elem) <= ord('z')) or (ord('A') <= ord(elem) <= ord('Z')):
+        if ord('a') <= ord(elem) <= ord('z') or ord('A') <= ord(elem) <= ord('Z'):
             cipher = ord(elem) - 3
-            if (cipher > ord('Z') and cipher < ord('a')) or (cipher < ord('A')):  
-               cipher = cipher + 26
+            if (cipher > ord('Z') and cipher < ord('a')) or (cipher < ord('A')):
+                cipher = cipher + 26
             plaintext = plaintext + chr(cipher)
         else:
             plaintext = plaintext + elem
