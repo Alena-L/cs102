@@ -13,17 +13,13 @@ def is_prime(n):
     False
     """
 
-    if n < 2:
-        return False
-    elif n == 2:
-        return True
-    elif n % 2 == 0:
-        return False
-    else:
-        for i in range(3, int(n**0.5)):
-            if n % i == 0:
-                return False
-    return True
+    if n % 2 == 0:
+        return n == 2
+    dl = 3
+    while dl * dl <= n and n % dl != 0:
+       dl += 2
+    return dl * dl > n
+    
     pass
 
 
