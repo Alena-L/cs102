@@ -96,8 +96,12 @@ def find_empty_positions(grid: List[List[str]]) -> Optional[Tuple[int, int]]:
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    pass
-
+    for x in range(len(grid)):
+        for y in range(len(grid)):
+            if grid[x][y] == '.':
+                pos = x,y
+                return pos
+    return None
 
 def find_possible_values(grid: List[List[str]], pos: Tuple[int, int]) -> Set[str]:
     """ Вернуть множество возможных значения для указанной позиции
