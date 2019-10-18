@@ -151,8 +151,17 @@ def solve(grid: List[List[str]]) -> Optional[List[List[str]]]:
 
 def check_solution(solution: List[List[str]]) -> bool:
     """ Если решение solution верно, то вернуть True, в противном случае False """
-    # TODO: Add doctests with bad puzzles
-    pass
+    for x in range(len(solution)):
+        for y in range(len(solution)): 
+            pos = x,y
+            if (set(get_row(solution,pos)) == 
+               set(get_col(solution,pos)) == 
+               set(get_block(solution,pos)) == 
+               set('123456789')):
+                return True
+            else:
+                return False
+
 
 
 def generate_sudoku(N: int) -> List[List[str]]:
@@ -189,3 +198,4 @@ if __name__ == '__main__':
             print(f"Puzzle {fname} can't be solved")
         else:
             display(solution)
+            print('solution is correct')
