@@ -100,7 +100,7 @@ def find_empty_positions(grid: List[List[str]]) -> Optional[Tuple[int, int]]:
     for x in range(len(grid)):
         for y in range(len(grid)):
             if grid[x][y] == '.':
-                pos = x,y
+                pos = x, y
                 return pos
     return None
 
@@ -115,11 +115,11 @@ def find_possible_values(grid: List[List[str]], pos: Tuple[int, int]) -> Set[str
     >>> values == {'2', '5', '9'}
     True
     """
-    a = set(get_row(grid,pos))
-    b = set(get_col(grid,pos))
-    c = set(get_block(grid,pos))
+    a = set(get_row(grid, pos))
+    b = set(get_col(grid, pos))
+    c = set(get_block(grid, pos))
     s = set('123456789')
-    forb = a.union(b,c)
+    forb = a.union(b, c)
     return (s.difference(forb))
 
 
@@ -140,7 +140,7 @@ def solve(grid: List[List[str]]) -> Optional[List[List[str]]]:
     pos = find_empty_positions(grid)
     if not pos:
         return grid
-    a,b = find_empty_positions(grid) 
+    a, b = find_empty_positions(grid) 
     for x in find_possible_values(grid,pos):
         grid[a][b] = x
         solution = solve(grid)
@@ -154,7 +154,7 @@ def check_solution(solution: List[List[str]]) -> bool:
     """ Если решение solution верно, то вернуть True, в противном случае False """
     for x in range(len(solution)):
         for y in range(len(solution)): 
-            pos = x,y
+            pos = x, y
             if (set(get_row(solution,pos)) == 
                set(get_col(solution,pos)) == 
                set(get_block(solution,pos)) == 
