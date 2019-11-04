@@ -33,10 +33,10 @@ class GameOfLife:
     def draw_lines(self) -> None:
         for x in range(0, self.width, self.cell_size):
             pygame.draw.line(self.screen, pygame.Color('black'),
-                    (x, 0), (x, self.height))
+                             (x, 0), (x, self.height))
         for y in range(0, self.height, self.cell_size):
             pygame.draw.line(self.screen, pygame.Color('black'),
-                    (0, y), (self.width, y))
+                             (0, y), (self.width, y))
 
     def run(self) -> None:
         pygame.init()
@@ -49,9 +49,9 @@ class GameOfLife:
             for event in pygame.event.get():
                 if event.type == QUIT:
                     running = False
-            self.draw_lines()
             self.draw_grid()
-            self.get_new_generation()
+            self.get_next_generation()
+            self.draw_lines()
             pygame.display.flip()
             clock.tick(self.speed)
 
@@ -64,8 +64,8 @@ class GameOfLife:
         return grid
 
     def draw_grid(self) -> None:
-        for i in self.grid:
-            for j in i:
+        for i in range(len(self.grid)):
+            for j in range(len(self.grid[i])):
                 if self.grid[i][j] == 1:
                     pygame.draw.rect(self.screen, pygame.Color('green'),
                                     (self.cell_size * j, self.cell_size * i, self.cell_size, self.cell_size))
@@ -100,3 +100,7 @@ class GameOfLife:
                         new_grid[i][j] = 0
         self.grid = new_grid
         return self.grid
+
+if __name__ == '__main__':
+    game = GameOfLife(320, 240, 10)
+    game.run()
