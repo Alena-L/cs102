@@ -8,7 +8,6 @@ Cell = Tuple[int, int]
 Cells = List[int]
 Grid = List[Cells]
 
-
 class GameOfLife:
 
     def __init__(
