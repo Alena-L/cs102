@@ -32,12 +32,15 @@ def get_friends(user_id, fields=''):
     assert user_id > 0, "user_id must be positive integer"
 
     domain = "https://api.vk.com/method"
-    access_token = 'd4190285f92c2c74afd7a729059db29475523fed31bc3aded36c55c6493b3606bbcd4cd475a7073be5414'
+    access_token = #token
     id = user_id
     field = fields
     v = '5.103'
     query = f"{domain}/friends.get?access_token={access_token}&user_id={id}&fields={field}&v={v}"
     response = requests.get(query)
-    friends = response.json()['response']['items']
-    return friends
+    try:
+        friends = response.json()['response']['items']
+        return friends
+    except KeyError:
+        pass
 
