@@ -1,0 +1,219 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+install.packages("plotly")
+```
+
+```{r}
+library(dplyr)
+```
+
+
+```{r}
+library(plotly)
+```
+
+```{r}
+df <- read.csv('2008.csv.bz2')
+```
+
+```{r}
+head(df)
+```
+
+```{r}
+dim(df)
+```
+
+```{r}
+colnames(df)
+```
+
+# The tasks
+
+### 1. Find top-10 carriers in terms of the number of completed flights (UniqueCarrier column)?
+#### Which of the listed below is not in your top-10 list?
+
+* DL
+* AA
+* OO
+* EV
+
+Answer: EV
+
+```{r}
+barplot(sort(table(df['UniqueCarrier']), decreasing = TRUE)[0:10])
+```
+
+### 2. Plot distributions of flight cancellation reasons (CancellationCode).
+#### What is the most frequent reason for flight cancellation?
+
+* carrier (A)
+* weather conditions (B)
+* National Air System (C)
+* security reasons (D)
+
+Answer: weather conditions
+
+```{r}
+barplot(sort(table(df['CancellationCode']), decreasing=TRUE)[2:5])
+```
+
+### 3. Which route is the most frequent, in terms of the number of flights?
+#### (Take a look at 'Origin' and 'Dest' features. Consider A->B and B->A directions as different routes)
+
+* New-York – Washington
+* San-Francisco – Los-Angeles
+* San-Jose – Dallas
+* New-York – San-Francisco
+
+Answer: San-Francisco – Los-Angeles
+
+```{r}
+df2 <- df %>% group_by(Origin, Dest) %>% summarise(count = n()) %>% arrange(desc(count))
+df2[df2$count == max(df2$count),]
+```
+
+### 4. Find top-5 delayed routes (count how many times they were delayed on departure). From all flights on these 5 routes, count all flights with weather conditions contributing to a delay.
+
+* 449
+* 539
+* 549
+* 668
+
+Answer: 668
+
+```{r}
+filter(df, DepDelay>0) %>% group_by(Origin, Dest) %>% summarize(count = n(), w = length(which(WeatherDelay > 0))) %>% arrange(desc(count)) %>% .[1:5, 'w'] %>% sum()
+```
+
+### 5. Examine the hourly distribution of departure times. For that, create a new series from DepTime, removing missing values.
+#### Choose all correct statements:
+
+* Flights are normally distributed within time interval [0-23] (Search for: Normal distribution, bell curve).
+* Flights are uniformly distributed within time interval [0-23].
+* In the period from 0 am to 4 am there are considerably less flights than from 7 pm to 8 pm.
+
+Answer: In the period from 0 am to 4 am there are considerably less flights than from 7 pm to 8 pm.
+
+```{r}
+df3 <- df[!is.na(df['DepTime']), c('DepTime','Year')]
+df3$DepTime <- sapply(df3$DepTime, function(x) (x %/% 100) %% 24)
+barplot(table(df3['DepTime']))
+```
+
+### 6. Show how the number of flights changes through time (on the daily/weekly/monthly basis) and interpret the findings.
+#### Choose all correct statements:
+
+* The number of flights during weekends is less than during weekdays (working days).
+* The lowest number of flights is on Sunday.
+* There are less flights during winter than during summer.
+
+Answer: The number of flights during weekends is less than during weekdays (working days) AND There are less flights during winter than during summer.
+
+```{r}
+barplot(table(df['Month']))
+```
+
+```{r}
+barplot(table(df['DayOfWeek']))
+```
+
+```{r}
+table(df['Month'])
+table(df['Month'])[1] + table(df['Month'])[2] + table(df['Month'])[12] < table(df['Month'])[6] + table(df['Month'])[7] + table(df['Month'])[8]
+```
+
+### 7. Examine the distribution of cancellation reasons with time. Make a bar plot of cancellation reasons aggregated by months.
+#### Choose all correct statements:
+
+* December has the highest rate of cancellations due to weather.
+* The highest rate of cancellations in September is due to Security reasons.
+* April's top cancellation reason is carriers.
+* Flights cancellations due to National Air System are more frequent than those due to carriers.
+
+Answer: December has the highest rate of cancellations due to weather AND April's top cancellation reason is carriers.
+
+```{r}
+df4 <- df[df$Cancelled == 1, c('CancellationCode','Month')]
+df5 <- df4 %>% group_by(CancellationCode, Month) %>% count(CancellationCode)
+df5
+barplot(formula = df5$n ~ df5$CancellationCode + df5$Month)
+#black is 'A' (Carrier)
+#grey is 'B' (Weather)
+#light-grey is 'C' (National Air System)
+```
+
+### 8. Which month has the greatest number of cancellations due to Carrier?
+
+* May
+* January
+* September
+* April
+
+Answer: April
+
+```{r}
+df6 <- filter(df, CancellationCode == 'A')
+barplot(table(df6['Month']))
+```
+
+### 9. Identify the carrier with the greatest number of cancellations due to carrier in the corresponding month from the previous question.
+
+* 9E
+* EV
+* HA
+* AA
+
+Answer: AA
+
+```{r}
+sort(table(df6['UniqueCarrier']), decreasing = TRUE)[1]
+```
+
+### 10. Examine median arrival and departure delays (in time) by carrier. Which carrier has the lowest median delay time for both arrivals and departures? Leave only non-negative values of delay times ('ArrDelay', 'DepDelay'). Boxplots can be helpful in this exercise, as well as it might be a good idea to remove outliers in order to build nice graphs. You can exclude delay time values higher than a corresponding .95 percentile.
+
+* EV
+* OO
+* AA
+* AQ
+
+```{r}
+
+df %>% filter(ArrDelay > 0) %>% group_by(UniqueCarrier) %>% summarize(n = median(ArrDelay)) %>% arrange(n) %>% .[1, ]
+```
+
+```{r}
+df %>% filter(DepDelay > 0) %>% group_by(UniqueCarrier) %>% summarize(n = median(DepDelay)) %>% arrange(n) %>% .[1, ]
+```
+
+```{r}
+arr_outliers <- quantile(df$DepDelay, 0.95, na.rm = TRUE)
+arr_outliers
+df7 <- df[!is.na(df$ArrDelay) & 0 < df$ArrDelay & df$ArrDelay <= arr_outliers, c('ArrDelay', 'UniqueCarrier')]
+```
+
+```{r}
+dep_outliers <- quantile(df$DepDelay, 0.95, na.rm = TRUE)
+dep_outliers
+df8 <- df[!is.na(df$DepDelay) & 0 < df$DepDelay & df$DepDelay <= dep_outliers, c('DepDelay', 'UniqueCarrier')]
+```
+
+```{r}
+boxplot(df7$ArrDelay~df7$UniqueCarrier, xlab="Carriers", ylab="Delays",
+        col=c("aliceblue", "azure4", "orange", "salmon", "purple", "chocolate4", "gray14", "royalblue1", "peachpuff", "red", "green",
+              "cyan4", "antiquewhite", "yellow", "mediumblue", "navajowhite4", "gray32", "burlywood", "turquoise1", "palegreen1"))
+```
+
+```{r}
+table(df['UniqueCarrier'])
+```
+
+```{r}
+boxplot(df8$DepDelay~df8$UniqueCarrier, xlab="Carriers", ylab="Delays",
+        col=c("aliceblue", "azure4", "orange", "salmon", "purple", "chocolate4", "gray14", "royalblue1", "peachpuff", "red", "green",
+              "cyan4", "antiquewhite", "yellow", "mediumblue", "navajowhite4", "gray32", "burlywood", "turquoise1", "palegreen1"))
+```
