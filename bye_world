@@ -1,2 +1,0 @@
-for i in range(3):
-	print('Ground Control to Major Tom...')
